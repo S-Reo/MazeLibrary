@@ -1,0 +1,34 @@
+{
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "build mazelib project",
+            "command": "C:\\msys64\\mingw64\\bin\\gcc.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                // "${file}",
+                "${workspaceFolder}\\test.c",
+                "${workspaceFolder}\\dfs.c",
+                "${workspaceFolder}\\FastRun.c",
+                "${workspaceFolder}\\MazeLib.c",
+                "${workspaceFolder}\\MazeSimulation.c",
+                "${workspaceFolder}\\Searching.c",
+                "-o",
+                "${fileDirname}\\test.exe"
+            ],
+            "options": {
+                "cwd": "C:\\msys64\\mingw64\\bin"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "デバッガーによって生成されたタスク。"
+        }
+    ],
+    "version": "2.0.0"
+}

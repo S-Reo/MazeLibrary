@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "mazelib.h": "c",
+        "dfs.h": "c",
+        "mazesimulation.h": "c",
+        "searching.h": "c",
+        "fastrun.h": "c"
+    },
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+    "git.alwaysShowStagedChangesResourceGroup": false,
+    "cmake.sourceDirectory": "${workspaceFolder}"
+}
