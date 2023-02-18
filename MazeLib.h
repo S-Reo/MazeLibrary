@@ -22,8 +22,8 @@
 #define GOAL_SIZE_X 2
 #define GOAL_SIZE_Y 2
 
-#define GOAL_X 7
-#define GOAL_Y 7
+#define GOAL_X 2
+#define GOAL_Y 2
 
 #define __JUDGE_GOAL__(x,y) (( (GOAL_X <= x) && (x < GOAL_X + GOAL_SIZE_X)) && ((GOAL_Y <= y) && (y < GOAL_Y + GOAL_SIZE_Y)) )
 
