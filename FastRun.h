@@ -49,6 +49,7 @@ void getPathAction();
 void printPathAction();
 int getPathActionDiagonal();
 
+cardinal shiftCardinalByTurn(cardinal focus_car, Action action);
 
 void getRouteFastRun(state *log_st, state *now_st, int n);
 void printRoute(state *route, int n);

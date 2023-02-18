@@ -9,6 +9,31 @@
 #include "Searching.h"
 #include "dfs.h"
 
+inline _Bool getTimFlag(timer_mouse *tm){
+	return tm->flag;
+}
+inline void setTimFlag(timer_mouse *tm, _Bool flag){
+	tm->flag = flag;
+}
+inline int getTimElapsed(timer_mouse *tm){
+	return tm->Elaplsed;
+}
+inline void countTimElapsed(timer_mouse *tm){
+	if(tm->flag == true){
+		tm->Elaplsed += 1;
+		tm->count += 1;
+	}
+	else{
+		tm->Elaplsed = tm->Elaplsed;
+		tm->count = tm->count;
+	}
+}
+void resetTimMember(timer_mouse *tm){
+	tm->count = 0;
+	tm->Elaplsed = 0;
+	tm->flag = false;
+}
+
 // 探索中: 座標の4方向の壁の有無を更新
 void updateNodeThree(maze_node *maze, wall_existence *wall, uint8_t x, uint8_t y)
 {
@@ -275,7 +300,7 @@ node *getNodeInfo(maze_node *maze, uint8_t x, uint8_t y, cardinal car)
     }
     return error;
 }
-node *getNextNode(maze_node *maze, cardinal car, node *now_node, int mask)
+inline node *getNextNode(maze_node *maze, cardinal car, node *now_node, int mask)
 {
     //6ノードの重みを比較して、次のノードへのアドレスを返す
     //現ノードの情報から見るべきノードを選び、比較する
@@ -816,7 +841,7 @@ _Bool judgeAccelorNot(maze_node *maze, cardinal car, node *now_node)
 	//直進かどうかまで見て、直進でなければfalse
 	//既知でかつ直進ならtrue
 }
-state *getNextState(state *now_state, state *next_state, node *next_node)
+inline state *getNextState(state *now_state, state *next_state, node *next_node)
 {
     //state *next_state;
     //差分を見て、次の状態を定義
@@ -1136,6 +1161,43 @@ state *getNextState(state *now_state, state *next_state, node *next_node)
     return next_state; //ここまで来てしまったらエラー
 }
 
+_Bool getWallFRLfromMaze(maze_node *mz, state *st, wall_state *wall_st) //simulation *simu, 
+{
+    //4方角の壁があるか無いかを返す
+    switch (st->car%8)
+    {
+    case north:
+        wall_st[0] = mz->RawNode[st->pos.x][(st->pos.y)+1].existence;    //北
+        wall_st[1] = mz->ColumnNode[(st->pos.x)+1][st->pos.y].existence; //東
+        wall_st[2] = 0;                                                                 //南
+        wall_st[3] = mz->ColumnNode[st->pos.x][st->pos.y].existence;     //西
+        break;
+    case east:
+        wall_st[3] = mz->RawNode[st->pos.x][(st->pos.y)+1].existence;    //北
+        wall_st[0] = mz->ColumnNode[(st->pos.x)+1][st->pos.y].existence; //東
+        wall_st[1] = mz->RawNode[st->pos.x][st->pos.y].existence;        //南
+        wall_st[2] = 0;                                                                 //西
+        break;
+    case south:
+        wall_st[2] = 0;                                                                 //北
+        wall_st[3] = mz->ColumnNode[(st->pos.x)+1][st->pos.y].existence; //東
+        wall_st[0] = mz->RawNode[st->pos.x][st->pos.y].existence;        //南
+        wall_st[1] = mz->ColumnNode[st->pos.x][st->pos.y].existence;     //西
+        break;
+    case west:
+        wall_st[1] = mz->RawNode[st->pos.x][(st->pos.y)+1].existence;    //北
+        wall_st[2] = 0;                                                                 //東
+        wall_st[3] = mz->RawNode[st->pos.x][st->pos.y].existence;        //南
+        wall_st[0] = mz->ColumnNode[st->pos.x][st->pos.y].existence;     //西
+        break;
+    default:
+        //万が一斜めの方角を向いているときに呼び出してしまったら、
+        return false;
+        break;
+    }
+    return true;
+
+}
 //引数のwall_stが前右左
 _Bool getWallNow(state *st, wall_state *wall_st)//wall_existence *wall[4])(
 {

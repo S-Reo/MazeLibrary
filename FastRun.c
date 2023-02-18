@@ -51,6 +51,8 @@ void getPathNode(maze_node *maze, profile *mouse)
     printf("完了?\r\n");
 	path_num ++;
 	FastPath[path_num].path_state = mouse->next;
+    // printState(&(mouse->next));
+    // printState(&(FastPath[path_num+1].path_state));
 	Num_Nodes = path_num;
 
 }
@@ -236,7 +238,7 @@ static _Bool judgeACC_DEC_DIAGONAL(node *focus_nd, node *ahead_nd, cardinal focu
 
 // ゴール時のフィニッシュを決める動作パターンを生成
 
-static int getFinishActionStraight90(cardinal car, Path *focus_path){
+int getFinishActionStraight90(cardinal car, Path *focus_path){
     int straight_num = 0;
     switch (car)
     {
@@ -246,6 +248,8 @@ static int getFinishActionStraight90(cardinal car, Path *focus_path){
             focus_path->path_action = ACC_DEC_90;
             focus_path++;
             straight_num++;
+            // printf("%d,%p,%d\r\n", focus_path->path_action, focus_path, straight_num);
+
         }
         break;
     case north:
@@ -264,10 +268,11 @@ static int getFinishActionStraight90(cardinal car, Path *focus_path){
     return straight_num;
 }
 
-static cardinal shiftCardinalByTurn(cardinal focus_car, Action action){
+cardinal shiftCardinalByTurn(cardinal focus_car, Action action){
 
     switch (action)
     {
+    case START:
     case ACC_DEC_90:
     case ACC_DEC_45:
         return focus_car;
@@ -357,6 +362,8 @@ int getPathActionDiagonal(){
                         break;
                     }
                     else{
+                        printState(&(FastPath[focus].path_state)); //focus 12, 列の5,3にいて、直進を選んでいるのはなぜ？
+                        // printState(&(FastPath[focus+1].path_state));
                         focus += 1;
                         continue;
                     }
@@ -390,8 +397,10 @@ int getPathActionDiagonal(){
                         case west:
                             if(__COLUMN_TO_RAW_NW__(plus1.x, plus1.y, plus2.x, plus2.y) == true)
                                 FastPath[action_num].path_action = R_90_FAST;
-                            else if(__COLUMN_TO_RAW_SW__(plus1.x, plus1.y, plus2.x, plus2.y) == true)
+                            else if(__COLUMN_TO_RAW_SW__(plus1.x, plus1.y, plus2.x, plus2.y) == true){
                                 FastPath[action_num].path_action = L_90_FAST;
+                                printState(&(FastPath[focus].path_state));
+                            }
                             break;
                         default:
                             break;
@@ -787,8 +796,11 @@ int getPathActionDiagonal(){
                                     // FastPath[action_num+1].path_action = ACC_DEC_90;
                                     break;
                                 }
-                                else if( (selected_action == L_135_FAST_REVERSE) == (selected_action == R_135_FAST_REVERSE) ){
-                                    action_num += getFinishActionStraight90(car, &FastPath[action_num]);
+                                else if( (selected_action == L_135_FAST_REVERSE) || (selected_action == R_135_FAST_REVERSE) ){
+                                    int add_num=0;
+                                    add_num = getFinishActionStraight90(car, &FastPath[action_num]);
+                                    action_num += add_num;
+                                    // printf("breakのはず. %d\r\n", action_num);
                                     break;
                                 }
                             }

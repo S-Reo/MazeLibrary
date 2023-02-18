@@ -20,7 +20,6 @@ typedef struct {
 _Bool getFileData(simulation *simu);
 
 void getNodeFrom16Value_Simulation(simulation *simu);
-_Bool convert16ValueToWallDirection_Simulation(simulation *simu, state *st, wall_state *wall_st);
 
 void recordSearchHistory(position now_pos, position target_pos);
 void outputSearchHistory();

@@ -15,6 +15,18 @@
 //データ構造
 /* ----- 探索者データ管理 ここから----- */
 #define IS_GOAL(next_x, next_y) (( (GOAL_X <= next_x && next_x < (GOAL_X+GOAL_SIZE_X) )) && (GOAL_Y <= next_y && next_y < (GOAL_Y+GOAL_SIZE_Y)) )
+typedef struct{
+    int count;
+    int Elaplsed;
+    _Bool flag;
+}timer_mouse;
+extern timer_mouse tim_search;
+
+_Bool getTimFlag(timer_mouse *tm);
+void setTimFlag(timer_mouse *tm, _Bool flag);
+int getTimElapsed(timer_mouse *tm);
+void countTimElapsed(timer_mouse *tm);
+void resetTimMember(timer_mouse *tm);
 
 typedef enum{
     north,
@@ -88,7 +100,7 @@ node *getNodeInfo(maze_node *maze, uint8_t x, uint8_t y, cardinal car);
 node *getNextNode(maze_node *maze, cardinal car, node *my_node, int mask);
 state *getNextState(state *now_state, state *next_state, node *next_node);
 
-
+_Bool getWallFRLfromMaze(maze_node *mz, state *st, wall_state *wall_st);
 _Bool getWallNow(state *st, wall_state *wall_st);
 void getNowWallVirtual(maze_node *, profile *, uint8_t now_x, uint8_t now_y);
 void getNextWallVirtual(maze_node *, profile *, uint8_t next_x, uint8_t next_y);

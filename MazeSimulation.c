@@ -8,51 +8,15 @@
 // char FILE_NAME[200] = "C:/Users/leopi/MATLAB/MazeSimu/MazeTextData/test_case_4403.txt";
 // char FILE_NAME[200] = "C:/Users/leopi/MATLAB/MazeSimu/MazeTextData/test_case_4405.txt";
 // char FILE_NAME[200] = "C:/Users/leopi/MATLAB/MazeSimu/MazeTextData/MM2021MS.txt";
-char FILE_NAME[200] = "C:/Users/leopi/MATLAB/MazeSimu/MazeTextData/MM2021MM.txt";
+// char FILE_NAME[200] = "C:/Users/leopi/MATLAB/MazeSimu/MazeTextData/MM2021MM.txt";
+char FILE_NAME[200] = "C:/Users/leopi/MATLAB/MazeSimu/MazeTextData/MM2021MM_fast_bug_fix.txt";
 // char FILE_NAME[200] = "C:/Users/leopi/MATLAB/MazeSimu/MazeTextData/MM2021MS1.1.txt";
 // char FILE_NAME[200] = "/mnt/c/Users/leopi/MATLAB/MazeSimu/MazeTextData/MM2021MS1.2.txt"; //3個目がゴールになるパターン
 // char FILE_NAME[200] = "/mnt/c/Users/leopi/MATLAB/MazeSimu/MazeTextData/MM2021MS1.3.txt"; //135度リバースか90斜め
 // char FILE_NAME[200] = "/mnt/c/Users/leopi/MATLAB/MazeSimu/MazeTextData/MM2021MS1.4.txt"; //2個先がゴール
 
 // 10の値からも受け付けるようにしたい
-//0~15の値使ってない、名前おかしい
-_Bool convert16ValueToWallDirection_Simulation(simulation *simu, state *st, wall_state *wall_st)
-{
-    //4方角の壁があるか無いかを返す
-    switch (st->car)
-    {
-    case north:
-        wall_st[0] = simu->virtual_maze.RawNode[st->pos.x][(st->pos.y)+1].existence;    //北
-        wall_st[1] = simu->virtual_maze.ColumnNode[(st->pos.x)+1][st->pos.y].existence; //東
-        wall_st[2] = 0;                                                                 //南
-        wall_st[3] = simu->virtual_maze.ColumnNode[st->pos.x][st->pos.y].existence;     //西
-        break;
-    case east:
-        wall_st[3] = simu->virtual_maze.RawNode[st->pos.x][(st->pos.y)+1].existence;    //北
-        wall_st[0] = simu->virtual_maze.ColumnNode[(st->pos.x)+1][st->pos.y].existence; //東
-        wall_st[1] = simu->virtual_maze.RawNode[st->pos.x][st->pos.y].existence;        //南
-        wall_st[2] = 0;                                                                 //西
-        break;
-    case south:
-        wall_st[2] = 0;                                                                 //北
-        wall_st[3] = simu->virtual_maze.ColumnNode[(st->pos.x)+1][st->pos.y].existence; //東
-        wall_st[0] = simu->virtual_maze.RawNode[st->pos.x][st->pos.y].existence;        //南
-        wall_st[1] = simu->virtual_maze.ColumnNode[st->pos.x][st->pos.y].existence;     //西
-        break;
-    case west:
-        wall_st[1] = simu->virtual_maze.RawNode[st->pos.x][(st->pos.y)+1].existence;    //北
-        wall_st[2] = 0;                                                                 //東
-        wall_st[3] = simu->virtual_maze.RawNode[st->pos.x][st->pos.y].existence;        //南
-        wall_st[0] = simu->virtual_maze.ColumnNode[st->pos.x][st->pos.y].existence;     //西
-        break;
-    default:
-        //万が一斜めの方角を向いているときに呼び出してしまったら、
-        return false;
-        break;
-    }
-    return true;
 
-}
 
 //16進数を壁情報に.simulation?
 static _Bool convert16ValueToNode(simulation *simu,uint8_t x, uint8_t y)

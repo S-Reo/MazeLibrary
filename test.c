@@ -108,7 +108,7 @@ void searchAdachi_and_DFS_Core(maze_node *maze, profile *mouse, int mask){ // �
             break;
         #if 1 //センサ値の更新
             wall_state wall[4]={0};
-            convert16ValueToWallDirection_Simulation(&test, &(mouse->now), &wall[0]); //前右左
+            getWallFRLfromMaze(&(test.virtual_maze), &(mouse->now), &wall[0]); //前右左
             getWallNow(&(mouse->now), &wall[0]);
         #else
         // この関数をアクションの終盤で呼ぶ
@@ -206,7 +206,7 @@ static _Bool searchAdachi_and_DFS(){
     // 3. スタート（次の姿勢はわかっている）
     #if 1 //センサ値の更新
         wall_state wall[4]={0};
-        convert16ValueToWallDirection_Simulation(&test, &(mouse.next), &wall[0]); //前右左
+        getWallFRLfromMaze(&(test.virtual_maze), &(mouse.next), &wall[0]); //前右左
         getWallNow(&(mouse.next), &wall[0]);
     #else
         // この関数をアクションの終盤で呼ぶ
@@ -362,7 +362,7 @@ static _Bool runTask(simulation_task task){
 int main()
 {
     //外部から迷路をインポートして走らせる
-    if(runTask(TASK_ADACHI_AND_DFS) == false)
+    if(runTask(TASK_TEST_ACTION_GENERATION) == false)
         printf("タスク遂行に失敗しました\r\n");
     
     else
