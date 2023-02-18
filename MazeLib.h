@@ -9,6 +9,7 @@
         //マスの中央に評価値を置くパターン
         //エッジに評価値を置くパターン
 
+// hogehoge
 #ifndef MAZELIB_H_
 #define MAZELIB_H_
 
